@@ -112,8 +112,8 @@ class SatellitePassSensor(CoordinatorEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool:
         """Return the state."""
-        if self.coordinator.data["visual_passes"]:
-            next_pass = self.coordinator.data["visual_passes"][0]
+        if self.coordinator.data["radio_passes"]:
+            next_pass = self.coordinator.data["radio_passes"][0]
 
             if next_pass["startUTC"] < (
                 time.time() + (10 * 60)

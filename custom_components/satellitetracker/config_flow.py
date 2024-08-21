@@ -21,8 +21,8 @@ from homeassistant.const import (
 
 from .const import (
     DOMAIN, 
-    CONF_MIN_VISIBILITY, 
-    DEFAULT_MIN_VISIBILITY, 
+    CONF_MIN_ELEVATION, 
+    DEFAULT_MIN_ELEVATION, 
     DEFAULT_POLLING_INTERVAL,
     CONF_SATELLITE,
     CONF_MIN_ALERT,
@@ -259,9 +259,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                             ),
                         ):int,
                         vol.Optional(
-                            CONF_MIN_VISIBILITY,
+                            CONF_MIN_ELEVATION,
                             default=self.config_entry.options.get(
-                                CONF_MIN_VISIBILITY, DEFAULT_MIN_VISIBILITY
+                                CONF_MIN_ELEVATION, DEFAULT_MIN_ELEVATION
                             ),
                         ):int,
                         vol.Optional(

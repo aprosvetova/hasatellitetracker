@@ -21,8 +21,8 @@ from .const import (
     ATTR_MODEL, 
     DOMAIN, 
     COORDINATOR,
-    CONF_MIN_VISIBILITY,
-    DEFAULT_MIN_VISIBILITY,
+    CONF_MIN_ELEVATION,
+    DEFAULT_MIN_ELEVATION,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -104,9 +104,9 @@ class SatelliteSensor(CoordinatorEntity):
         """Return the state for this entity."""
         state = None
 
-        if len(self.coordinator.data["visual_passes"]) > self._sat_count:
-            pass_data = self.coordinator.data["visual_passes"][self._sat_count]
-            state = pass_data["duration"]
+        if len(self.coordinator.data["radio_passes"]) > self._sat_count:
+            pass_data = self.coordinator.data["radio_passes"][self._sat_count]
+            state = pass_data["maxEl"]
 
         return state
 
@@ -114,8 +114,8 @@ class SatelliteSensor(CoordinatorEntity):
     def extra_state_attributes(self):
         """Return the attributes for this entity."""
         self.attrs = {}
-        if len(self.coordinator.data["visual_passes"]) > self._sat_count:
-            pass_data = self.coordinator.data["visual_passes"][self._sat_count]
+        if len(self.coordinator.data["radio_passes"]) > self._sat_count:
+            pass_data = self.coordinator.data["radio_passes"][self._sat_count]
             if pass_data["maxEl"] > 65:
                 self.attrs["quality"] = "High"
             elif pass_data["maxEl"] > 45:
@@ -123,7 +123,6 @@ class SatelliteSensor(CoordinatorEntity):
             else:
                 self.attrs["quality"] = "Low"
 
-            self.attrs["max_elevation"] = pass_data["maxEl"]
             self.attrs["pass_start"] = as_local(utc_from_timestamp(
                 pass_data["startUTC"]
             )).strftime("%d-%b-%Y %I:%M %p")
